@@ -1,0 +1,6 @@
+a=int(3.8999)
+b=int("45")
+c=int(123)
+print(type(a),a)
+print(type(b),b)
+print(type(c),c)

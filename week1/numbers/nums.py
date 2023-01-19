@@ -1,0 +1,14 @@
+a=1
+b=2.1
+c=True
+print("Before:")
+print(type(a))
+print(type(b))
+print(type(c),"\n")
+x=float(a)
+y=int(b)
+z=str(c)
+print("After:")
+print(type(x))
+print(type(y))
+print(type(z))
