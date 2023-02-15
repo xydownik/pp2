@@ -14,7 +14,4 @@ while num!=rnum:
         guess+=1
     else:
         print(f"Good job, {name}! You guessed my number in {guess} guesses!")
-        newrnum=random.randint(1, 20)
-        rnum=newrnum
         break
-    
