@@ -1,55 +1,20 @@
-# import pygame
-
-# pygame.init()
-
-# sc = pygame.display.set_mode((800,800))
-# sc.fill((255,255,255))
-# clock = pygame.time.Clock()
-
-# ball = pygame.draw.circle(sc, 'red', (400,400), 25)
-# speed = 25
-# while True:
-#     for event in pygame.event.get():
-#         if event.type == pygame.QUIT:
-#             exit()
-        
-#         if event.type==pygame.KEYDOWN:
-#             if event.key == pygame.K_UP:
-#                 pass
-#             elif event.key == pygame.K_DOWN:
-#                 pass
-#             elif event.key == pygame.K_LEFT:
-#                 pass
-#             elif event.key == pygame.K_RIGHT:
-#                 pass
-            
-    
-#     pygame.display.update()
-#     clock.tick(60)
-
-
 import pygame
 pygame.init()
   
 sc = pygame.display.set_mode((800, 800))
 clock = pygame.time.Clock()
 
-pygame.display.set_caption("Moving rectangle")
+pygame.display.set_caption("Moving circle")
   
-# object current co-ordinates 
 x = 400
 y = 400
   
-# dimensions of the object 
 radius = 25
   
-# velocity / speed of movement
 vel = 20
   
-# Indicates pygame is running
 run = True
   
-# infinite loop 
 while run:
     pygame.time.delay(10)
       
