@@ -1,7 +1,7 @@
 import pygame
 import random
 
-def snake():
+def main():
     
     pygame.init()
   
@@ -122,7 +122,7 @@ def snake():
                 check = False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_r:
-                    snake()
+                    main()
                 if event.key == pygame.K_c:
                     check = False
         sc.fill(white)
@@ -130,5 +130,5 @@ def snake():
         sc.blit(score_font.render('R-->restart OR C-->close ' , True, black), (35,200))
 
         pygame.display.update()
-snake()
+main()
 pygame.quit()
