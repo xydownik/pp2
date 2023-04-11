@@ -1,5 +1,4 @@
 import pygame
-import os
 clock = pygame.time.Clock()
 music = ['Pink Floyd - Comfortably Numb.mp3', 'Pink Floyd - The Gunners Dream.mp3', 'Oasis_-_Married_With_Children.mp3']
 buttons = ['pause.png', 'play.jpg', 'next.png', 'back.png']

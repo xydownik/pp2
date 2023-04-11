@@ -1,6 +1,7 @@
 import pygame, sys
+
 from pygame.locals import *
-import time, random
+import time,random
  
 pygame.init()
 
@@ -18,6 +19,7 @@ HEIGHT = 600
 speed = 5
 score = 0
 coins = 0
+
 
 class Enemy(pygame.sprite.Sprite):
       def __init__(self):
@@ -63,8 +65,33 @@ class Coin(pygame.sprite.Sprite):
         super().__init__()
         self.image = pygame.image.load("coin.png")
         self.rect = self.image.get_rect()
-        self.rect.center = (random.randint(40, 360), random.randint(-100, 0))
+        self.rect.center = (random.randint(40, 560), random.randint(-100, 0))
         self.weight = 1
+        self.mask = pygame.mask.from_surface(self.image)
+
+    def move(self):
+        global coins
+        if self.rect.top > HEIGHT:
+            self.rect.top = 0
+            self.rect.center = (random.randint(40, 560), 0)
+        elif pygame.sprite.spritecollide(self, player , False, pygame.sprite.collide_mask):
+            coins += self.weight
+            self.rect.top = 0
+            self.rect.center = (random.randint(40,560), 0)
+        elif pygame.sprite.spritecollideany(self, enemies, pygame.sprite.collide_mask):
+            self.rect.center = (random.randint(40,560), 0)
+
+        self.rect.move_ip(0, speed)
+        
+        
+class Coin2(pygame.sprite.Sprite):
+
+    def __init__(self):
+        super().__init__()
+        self.image = pygame.transform.scale(pygame.image.load("coin.png"), (84,84))
+        self.rect = self.image.get_rect()
+        self.rect.center = (random.randint(40, 560), random.randint(-100, 0))
+        self.weight = 3
         self.mask = pygame.mask.from_surface(self.image)
 
     def move(self):
@@ -111,16 +138,24 @@ sprites.add(E1)
 velocity = pygame.USEREVENT + 1
 pygame.time.set_timer(velocity, 1000)
 
-for i in range(4):
+for i in range(2):
     C1 = Coin()
     coins_group.add(C1)
     sprites.add(C1)
-
+    
+for i in range(1):
+    C2 = Coin2()
+    coins_group.add(C2)
+    sprites.add(C2)
+coins2 = 10
 while True:
         
     for event in pygame.event.get():
         if event.type == velocity:
-              speed += 0.5     
+            if coins >=coins2:          # if current num of coins exceed coins2 = 10 then speed increases to 1 
+                speed += 1.5
+                coins2+=10          # and the next time speed increases when coins will exceed twice coins2 +=coins(5+=5|6|7)
+                   
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
