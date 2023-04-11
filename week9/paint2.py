@@ -52,7 +52,7 @@ def equil_tri():
     r = a/math.sqrt(3)
     b = a/math.sqrt(12)
     x = tri_pos[0]
-    y = tri_pos[1]                                # r  = a/sqrt(3) --> theory of right tri
+    y = tri_pos[1]                                # r  = a/sqrt(3) --> theory of equilateral tri
     A = ((x- a/2),(y + b))         # b = sqrt(r^2-(s/2)^2) = a/sqrt(12)
     B = (x, (y-r))                    # just gave coordinates of points according to its center which is given by mouse
     C = ((x+a/2), (y + b))

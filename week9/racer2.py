@@ -152,9 +152,9 @@ while True:
         
     for event in pygame.event.get():
         if event.type == velocity:
-            if coins >=coins2:          # if current num of coins exceed coins2 = 10 then speed increases to 1 
+            if coins >=coins2:          # if current num of coins exceed coins2 = 10 then speed increases to 1.5
                 speed += 1.5
-                coins2+=10          # and the next time speed increases when coins will exceed twice coins2 +=coins(5+=5|6|7)
+                coins2+=10          # and the next time speed increases when coins will exceed 20
                    
         if event.type == pygame.QUIT:
             pygame.quit()
