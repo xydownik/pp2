@@ -131,14 +131,14 @@ def menu(window):
                 if rule_button.draw(window):
 
                     print("любое слово")
-                back = pygame.transform.scale(pygame.image.load('resources\\bg.jpg'), (800,800))
+                back = pygame.transform.scale(pygame.image.load('resources\\bg.jpg'),(800,800))
                 rule = pygame.image.load('resources\ere.png')
                 window.blit(back, (0, 0))
                 window.blit(rule, (30, 100))
 
                 if back_button.draw(window):
                     menu_state = "main"
-
+ 
             if menu_state == "play":
                 if resume_button.draw(window):
                     print("play start")
