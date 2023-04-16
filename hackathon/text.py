@@ -14,10 +14,10 @@ class InputBox:
         self.text = text
         self.txt_surface = FONT.render(text, True, self.color)
         self.active = False
-        self.point = 0
+        
         
 
-    def handle_event(self, event,answer):
+    def handle_event(self, event,answer, somelist ):
         if event.type == pygame.MOUSEBUTTONDOWN:
             # If the user clicked on the input_box rect.
             if self.rect.collidepoint(event.pos):
@@ -31,7 +31,7 @@ class InputBox:
             if self.active:
                 if event.key == pygame.K_RETURN:
                     if self.check(answer):
-                        
+                        somelist.append(self.text)
                         print(self.text)
                         self.text = ''
                         
@@ -43,11 +43,9 @@ class InputBox:
                 self.txt_surface = FONT.render(self.text, True, self.color)
     def check(self,answer):
         if self.text == answer:
-            self.point = 1
             self.color = pygame.Color('green')
             return True
         else:
-            self.point = 0
             self.color = pygame.Color('red')
             return False
     def update(self):

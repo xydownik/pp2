@@ -1,21 +1,16 @@
 import pygame
 import button
+import time
 from text import InputBox
-from map import world
 from player import *
+from map import world
 pygame.init()
 
-SCENE_Q1 = 1
-SCENE_Q2 = 2
-SCENE_Q3 = 3
-SCENE_Q4 = 4
-SCENE_Q5 = 5
+
 SCENE_GAME = 0
-SCENE_MENU = 6
+SCENE_MENU = 1
 
 W,H = 800,800
-
-font = pygame.font.SysFont('Consolas', 30)
 clock = pygame.time.Clock()
 cell = 40
 ww,wh = W//cell, H//cell
@@ -30,7 +25,7 @@ i2 = pygame.transform.scale(pygame.image.load('resources\image2.png'),(800,500))
 i3 = pygame.transform.scale(pygame.image.load('resources\image3.png'),(800,500))
 i4 = pygame.transform.scale(pygame.image.load('resources\image4.png'),(800,500))
 i5 = pygame.transform.scale(pygame.image.load('resources\image5.png'),(800,500))
-
+points = []
 active = False
 pipes = []
 def pipe():
@@ -38,16 +33,17 @@ def pipe():
         pip = pygame.transform.scale(pygame.image.load(f'resources\pipe{i}.png'),(120,120))
         pipes.append(pip)
     return  pipes
-    
 
 input_box1 = InputBox(200, 600, 200, 80)
 input_box2 = InputBox(200, 600, 200, 80)
 input_box3 = InputBox(200, 600, 200, 80)
 input_box4 = InputBox(200, 600, 200, 80)
 input_box5 = InputBox(200, 600, 200, 80)
+
 in_boxes = [input_box1,input_box2,input_box3,input_box4,input_box5]
 answers = ['CONTRADICTION', 'MATPLOTLIB','CRYPTOGRAPHY','GAME OF THRONES','COPERNICUS']
 images = [i1,i2,i3,i4,i5]
+
 def menu(window):
     music = pygame.mixer.music.load('resources\music2.mp3')
 
@@ -141,65 +137,92 @@ def menu(window):
             
         pygame.display.update()
 
-def q1(window,i):
-    # global points
-    # points = 0
-    FPS = 30
+def q1(window,i,current_seconds):
+    
+    
+    play = True
+    FPS = 60
     clock = pygame.time.Clock()
-    while True:
+    while play:
         clock.tick(FPS)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 quit()
+            elif event.type == pygame.USEREVENT:
+                    current_seconds -= 1  
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:    
-                    return SCENE_GAME
+                    
+                    game(window,current_seconds)
             
-            
-            in_boxes[i].handle_event(event, answers[i])
+            in_boxes[i].handle_event(event, answers[i],points)
+            surf = font.render(str(len(points)), True, pygame.Color('white'))
+            window.blit(surf,(740,0))
             in_boxes[i].update()
             window.fill((255,255, 255)) 
             window.blit(images[i],(0,0))
             in_boxes[i].draw(window) 
-            
+    
+                
+        if current_seconds >= 0:
+                display_seconds = current_seconds % 60
+                display_minutes = int(current_seconds / 60) % 60
+                timer_text = FONT.render(f"{display_minutes:02}:{display_seconds:02}", True, "white")
+                window.blit(timer_text, timer_text_rect)
+        if current_seconds == 0:
+                window.fill('red')
+                window.blit(game_over, (280,320))
+        
+                # play=False     
         # points+= in_boxes[i].point   
-        pygame.display.update()
+        pygame.display.flip()
 
-# points = input_box1.point+input_box2.point
+            
+FONT2 = pygame.font.SysFont('Consolas', 30)
+FONT = pygame.font.SysFont('Consolas', 40)
+timer_text = FONT.render("00:00", True, "white")
+timer_text_rect = timer_text.get_rect(center=(700, 30))
+font=pygame.font.SysFont('Consolas',60)
+game_over = font.render("GAME OVER", True, 'black')
+win = FONT.render("MISSION COMPLETED", True,'black')
+end = FONT2.render("press _SPACE_ to restart", True,'grey3')
 
-points = 0
-for i in in_boxes:
-    points +=i.point
-def game(window):
+pygame.time.set_timer(pygame.USEREVENT, 1000)
+POMODORO_LENGTH = 300 # 1500 secs / 25 mins
+current_seconds = POMODORO_LENGTH
+def game(window,current_seconds):
     FPS = 60
     clock   = pygame.time.Clock()
-    battery = Battery(100,600,'resources\\6.png')
     player = Object(600, 450, 'resources\\1.png')  
     play = True
-    battery.update()
-    window.blit(battery.image, battery.rect)
+    battery = Battery(100,600, 'resources\\1b.png')
+    
     while play:
 
-            clock.tick(FPS)
+        clock.tick(FPS)
 
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
                     quit()
-                elif event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_SPACE:   
-                        play = False 
-                        return SCENE_MENU
-                
+            elif event.type == pygame.USEREVENT:
+                current_seconds -= 1
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:   
+                    play = False 
+                    return SCENE_MENU
+            
             #bg             
             window.blit(bg,(0,0))
-            window.blit(battery.image, battery.rect)
+            battery.update()
+            window.blit(battery.image,battery.rect)
             #player
             player.update()
             window.blit(player.image, player.rect) 
-    
+            waterlevel = 320
             #pool
             window.blit(water,(445,640))
-            s = pygame.Surface((320,320))
+            
+            s = pygame.Surface((320,waterlevel))
             s.set_alpha(50)
             s.fill(pygame.Color('blue'))
             window.blit(s, (240,240))
@@ -216,22 +239,24 @@ def game(window):
             pipe5 = window.blit(pipes[5],(640,420))
             pipe6 = window.blit(pipes[6],(640,300))
             pos = pygame.mouse.get_pos()
+            
+            
             #questions
             if pipe0.collidepoint(pos) or pipe4.collidepoint(pos):
                 if pygame.mouse.get_pressed()[0]:
-                    return SCENE_Q1
+                    q1(window,0,current_seconds)
             elif pipe7.collidepoint(pos):
                 if pygame.mouse.get_pressed()[0]:
-                    return SCENE_Q2
+                    q1(window,1,current_seconds)
             elif pipe2.collidepoint(pos):
                 if pygame.mouse.get_pressed()[0]:
-                    return SCENE_Q3
+                    q1(window,2,current_seconds)
             elif pipe1.collidepoint(pos):
                 if pygame.mouse.get_pressed()[0]:
-                    return SCENE_Q4
+                    q1(window,3,current_seconds)
             elif pipe3.collidepoint(pos):
                 if pygame.mouse.get_pressed()[0]:
-                    return SCENE_Q5
+                   q1(window,4,current_seconds)
             
             #map
             for i in range(len(world)):
@@ -242,28 +267,43 @@ def game(window):
                         window.blit(blocks, (x,y))
             
             
+            surf = font.render(str(len(points)), True, pygame.Color('white'))
+            window.blit(surf,(0,0))
             
+            if current_seconds >= 0:
+                display_seconds = current_seconds % 60
+                display_minutes = int(current_seconds / 60) % 60
+                timer_text = FONT.render(f"{display_minutes:02}:{display_seconds:02}", True, "white")
+                window.blit(timer_text, timer_text_rect)
+            elif current_seconds == 0:
+                window.fill('red')
+                window.blit(game_over, (280,320))
+            if len(points)==1:
+                
+                window.fill('paleturquoise1')
+                window.blit(win, (60,320))
+                window.blit(end, (60,400))
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE:  
+                        return SCENE_MENU 
+                        play = False 
+                        
+                # play=False  
             pygame.display.update()
+           
+    # time.sleep(5)      
+    quit()
 
 def main():
     window = pygame.display.set_mode((800, 800))
+    play = True
     scene = SCENE_MENU
-    
-    while True:
-        if scene == SCENE_Q1:
-            scene = q1(window,0)
-        elif scene == SCENE_Q2:
-            scene = q1(window,1)
-        elif scene == SCENE_Q3:
-            scene = q1(window,2)
-        elif scene == SCENE_Q4:
-            scene = q1(window,3)
-        elif scene == SCENE_Q5:
-            scene = q1(window,4)
-        elif scene == SCENE_GAME:
-            scene = game(window)
-            
+                      
+    while play:
+
+        if scene == SCENE_GAME:
+            scene = game(window,current_seconds)
         elif scene == SCENE_MENU:
             scene = menu(window)
-        
+  
 main()
