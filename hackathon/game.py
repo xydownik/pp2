@@ -5,6 +5,7 @@ from text import InputBox
 from player import *
 from map import world
 pygame.init()
+
 clock = pygame.time.Clock()
 #game screen and menu screen indicators
 SCENE_GAME = 0
@@ -191,19 +192,23 @@ def q1(window, i, current_seconds): #function which opens the i-th question,
         if current_seconds >= 0: #checks the time and shows it on the q1 screen
             display_seconds = current_seconds % 60
             display_minutes = int(current_seconds / 60) % 60
-            timer_text = FONT.render(
-                f"{display_minutes:02}:{display_seconds:02}", True, "white")
-            window.blit(timer_text, timer_text_rect)
+        timer_text = FONT.render(
+            f"{display_minutes:02}:{display_seconds:02}", True, "white")
+        window.blit(timer_text, timer_text_rect)
             
         if current_seconds == 0: #checks if the time is out and returns GAMEOVER-SCREEN
             window.fill('red')
-            window.blit(game_over, (280, 320))
+            window.blit(game_over, (235, 320))
+            play =False
+            game(window,current_seconds)
             
             
         if len(points) ==5 and current_seconds!=0: #checks if gamer solved all questions and have extra time 
                 window.fill('paleturquoise1')      #and returns WIN-SCREEN
                 window.blit(win, (60, 320))
-                play=False
+                play =False
+                game(window,current_seconds)
+                
         
         pygame.display.flip()
 
@@ -211,7 +216,7 @@ def q1(window, i, current_seconds): #function which opens the i-th question,
 
 #timer setting 
 pygame.time.set_timer(pygame.USEREVENT, 1000)
-POMODORO_LENGTH = 120  # 1500 secs / 25 mins
+POMODORO_LENGTH = 60  # 1500 secs / 25 mins
 current_seconds = POMODORO_LENGTH
 
 
@@ -300,26 +305,30 @@ def game(window, current_seconds): #main game screen
             if current_seconds >= 0: #checks the time and shows it on the q1 screen
                 display_seconds = current_seconds % 60
                 display_minutes = int(current_seconds / 60) % 60
-                timer_text = FONT.render(
-                    f"{display_minutes:02}:{display_seconds:02}", True, "white")
-                window.blit(timer_text, timer_text_rect)
+            timer_text = FONT.render(
+                f"{display_minutes:02}:{display_seconds:02}", True, "white")
+            window.blit(timer_text, timer_text_rect)
                 
-            elif current_seconds == 0: #checks if the time is out and returns GAMEOVER-SCREEN
+            if current_seconds == 0: #checks if the time is out and returns GAMEOVER-SCREEN
                 window.fill('red')
-                window.blit(game_over, (280, 320))
-            if len(points) == 5 and current_seconds!=0: #checks if gamer solved all questions and have extra time
+                window.blit(game_over, (235, 320))
+                
+                play = False
+            elif len(points) == 5 and current_seconds!=0: #checks if gamer solved all questions and have extra time
                 
                 window.fill('paleturquoise1')               #and returns WIN-SCREEN
-                window.blit(win, (60, 320))
-                time.sleep(3)
+                window.blit(win, (100, 320))
+                
                 play = False
             pygame.display.update()
-    
-    quit()
+    time.sleep(3)
+    quit()    
+  
 
 
 def main():    #controls the switch of two screens 
     window = pygame.display.set_mode((800, 800))
+    pygame.display.set_caption("DEADPOOL")
     play = True
     scene = SCENE_MENU
 
