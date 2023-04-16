@@ -31,7 +31,9 @@ class InputBox:
             if self.active:
                 if event.key == pygame.K_RETURN:
                     if self.check(answer):
-                        somelist.append(self.text)
+                        if self.text not in somelist:
+                            somelist.append(self.text)
+                        
                         print(self.text)
                         self.text = ''
                         
