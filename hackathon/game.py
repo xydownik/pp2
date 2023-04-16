@@ -1,6 +1,6 @@
 import pygame
 import button
-import time
+import time,random
 from text import InputBox
 from player import *
 from map import world
@@ -15,6 +15,17 @@ W, H = 800, 800
 # pixels per block in map
 cell = 40
 ww, wh = W//cell, H//cell
+# num1 = random.randint(0,4)
+# num2 = random.randint(0,4)
+# num3 = random.randint(0,4)
+# num4 = random.randint(0,4)
+# num5 = random.randint(0,4)
+
+nums = []
+while len(nums)!=5:
+    i = random.randint(0,9)
+    if i not in nums:
+        nums.append(i)
 
 
 #files for design
@@ -48,16 +59,32 @@ i4 = pygame.transform.scale(pygame.image.load(
     'resources\image4.png'), (800, 500))
 i5 = pygame.transform.scale(pygame.image.load(
     'resources\image5.png'), (800, 500))
+i6 = pygame.transform.scale(pygame.image.load(
+    'resources\image6.png'), (800, 500))
+i7 = pygame.transform.scale(pygame.image.load(
+    'resources\image7.png'), (800, 500))
+i8 = pygame.transform.scale(pygame.image.load(
+    'resources\image8.png'), (800, 500))
+i9 = pygame.transform.scale(pygame.image.load(
+    'resources\image9.jpg'), (800, 500))
+i10 = pygame.transform.scale(pygame.image.load(
+    'resources\image10.jpg'), (800, 500))
 #boxes for input text
 input_box1 = InputBox(200, 600, 200, 80)
 input_box2 = InputBox(200, 600, 200, 80)
 input_box3 = InputBox(200, 600, 200, 80)
 input_box4 = InputBox(200, 600, 200, 80)
 input_box5 = InputBox(200, 600, 200, 80)
-
-in_boxes = [input_box1, input_box2, input_box3, input_box4, input_box5] #list of input boxes
-answers = ['CONTRADICTION', 'MATPLOTLIB','CRYPTOGRAPHY', 'GAME OF THRONES', 'COPERNICUS'] #answers for chiphers
-images = [i1, i2, i3, i4, i5] 
+input_box6 = InputBox(200, 600, 200, 80)
+input_box7 = InputBox(200, 600, 200, 80)
+input_box8 = InputBox(200, 600, 200, 80)
+input_box9 = InputBox(200, 600, 200, 80)
+input_box10 = InputBox(200, 600, 200, 80)
+in_boxes = [input_box1, input_box2, input_box3, input_box4, input_box5,input_box6,input_box7,
+            input_box8,input_box9,input_box10] #list of input boxes
+answers = ['CONTRADICTION', 'MATPLOTLIB','CRYPTOGRAPHY', 'GAME OF THRONES', 'COPERNICUS',
+           'UNICODE','TRIGONOMETRY','MARATHON','DEVELOPER','PYGAME'] #answers for chiphers
+images = [i1, i2, i3, i4, i5,i6,i7,i8,i9,i10] 
 #texts and fonts for game
 FONT2 = pygame.font.SysFont('Consolas', 30)
 FONT = pygame.font.SysFont('Consolas', 40)
@@ -275,19 +302,19 @@ def game(window, current_seconds): #main game screen
             if len(points) !=5 and current_seconds!=0: # allows functions only when some questions still unsolved 
                 if pipe0.collidepoint(pos) or pipe4.collidepoint(pos):  #if the first pipe clicked switches to the q1 screen
                     if pygame.mouse.get_pressed()[0]:
-                        q1(window, 0,current_seconds)
+                        q1(window, nums[0],current_seconds)
                 elif pipe7.collidepoint(pos):
                     if pygame.mouse.get_pressed()[0]:
-                        q1(window, 1,current_seconds)
+                        q1(window, nums[1],current_seconds)
                 elif pipe2.collidepoint(pos):
                     if pygame.mouse.get_pressed()[0]:
-                        q1(window, 2,current_seconds)
+                        q1(window, nums[2],current_seconds)
                 elif pipe1.collidepoint(pos):
                     if pygame.mouse.get_pressed()[0]:
-                        q1(window, 3,current_seconds)
+                        q1(window, nums[3],current_seconds)
                 elif pipe3.collidepoint(pos):
                     if pygame.mouse.get_pressed()[0]:
-                        q1(window, 4,current_seconds)
+                        q1(window, nums[4],current_seconds)
 
             # map
             for i in range(len(world)):
