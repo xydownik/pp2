@@ -243,7 +243,7 @@ def q1(window, i, current_seconds): #function which opens the i-th question,
 
 #timer setting 
 pygame.time.set_timer(pygame.USEREVENT, 1000)
-POMODORO_LENGTH = 60  # 1500 secs / 25 mins
+POMODORO_LENGTH = 120  # 1500 secs / 25 mins
 current_seconds = POMODORO_LENGTH
 
 

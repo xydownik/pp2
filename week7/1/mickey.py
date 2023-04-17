@@ -35,7 +35,7 @@ while True:
     sc.blit(time_render,(0,0))
     
     langle = (74.5- t.second)*6 
-    rangle = 440 - (t.minute*6)
+    rangle = (440 - (t.minute*6))+langle/60
     blitRotateCenter(sc, leftHand, (w,h), langle) 
     blitRotateCenter(sc, rightHand, (w,h), rangle)
     pygame.display.flip()
