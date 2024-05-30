@@ -1,0 +1,5 @@
+f = open("demofile.txt", "w")
+# print(f.readline().rstrip())
+# f.close()
+# # print(f.readline().rstrip())
+# print(f.closed)

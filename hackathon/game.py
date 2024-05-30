@@ -14,14 +14,8 @@ SCENE_MENU = 1
 W, H = 800, 800
 # pixels per block in map
 cell = 40
-ww, wh = W//cell, H//cell
-# num1 = random.randint(0,4)
-# num2 = random.randint(0,4)
-# num3 = random.randint(0,4)
-# num4 = random.randint(0,4)
-# num5 = random.randint(0,4)
 
-nums = []
+nums = []                    #list of random indexes do that they weren't repeated  
 while len(nums)!=5:
     i = random.randint(0,9)
     if i not in nums:
@@ -39,7 +33,7 @@ blocks = pygame.transform.scale(
 
 
 points = [] #contains right answers length = num of right answers
-active = False
+
 pipes = [] #images of water pipes
 def pipe():
     for i in range(1, 8):
@@ -96,6 +90,8 @@ timer_text_rect = timer_text.get_rect(center=(700, 30))
 game_over = font.render("GAME OVER", True, 'black')
 win = font.render("MISSION COMPLETED", True, 'black')
 caution = FONT2.render("Write with CAPS", True, 'grey3')
+
+
 def menu(window):
     music = pygame.mixer.music.load('resources\music2.mp3')
 
@@ -243,8 +239,8 @@ def q1(window, i, current_seconds): #function which opens the i-th question,
 
 #timer setting 
 pygame.time.set_timer(pygame.USEREVENT, 1000)
-POMODORO_LENGTH = 120  # 1500 secs / 25 mins
-current_seconds = POMODORO_LENGTH
+
+current_seconds = 120
 
 
 def game(window, current_seconds): #main game screen
@@ -279,7 +275,7 @@ def game(window, current_seconds): #main game screen
             window.blit(water,(283,40))
             window.blit(pygame.transform.rotate(water,90),(40,245))
             window.blit(pygame.transform.rotate(water,90),(40,485))
-            s = pygame.Surface((320, waterlevel))
+            s = pygame.Surface((320, 320))
             s.set_alpha(50)
             s.fill(pygame.Color('blue'))
             window.blit(s, (240, 240))
@@ -339,13 +335,13 @@ def game(window, current_seconds): #main game screen
             if current_seconds == 0: #checks if the time is out and returns GAMEOVER-SCREEN
                 window.fill('red')
                 window.blit(game_over, (235, 320))
-                
+                 
                 play = False
+                main()
             elif len(points) == 5 and current_seconds!=0: #checks if gamer solved all questions and have extra time
                 
                 window.fill('paleturquoise1')               #and returns WIN-SCREEN
                 window.blit(win, (100, 320))
-                
                 play = False
             pygame.display.update()
     time.sleep(3)
